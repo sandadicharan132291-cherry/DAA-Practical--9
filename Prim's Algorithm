@@ -1,0 +1,51 @@
+# Prim's Algorithm
+
+def prim(graph):
+    n = len(graph)
+    selected = [False] * n
+    selected[0] = True
+
+    mst = []
+    total_cost = 0
+
+    for _ in range(n - 1):
+        min_weight = float('inf')
+        x = -1
+        y = -1
+
+        # Find the minimum weight edge
+        # connecting selected and unselected vertices
+        for i in range(n):
+            if selected[i]:
+                for j in range(n):
+                    if not selected[j] and graph[i][j] != 0:
+                        if graph[i][j] < min_weight:
+                            min_weight = graph[i][j]
+                            x = i
+                            y = j
+
+        # Add the selected edge to MST
+        selected[y] = True
+        mst.append((x, y, min_weight))
+        total_cost += min_weight
+
+    return mst, total_cost
+
+
+# Weighted adjacency matrix
+graph = [
+    [0, 2, 3, 0, 0],
+    [2, 0, 1, 4, 0],
+    [3, 1, 0, 5, 6],
+    [0, 4, 5, 0, 7],
+    [0, 0, 6, 7, 0]
+]
+
+mst, cost = prim(graph)
+
+print("Edges in Minimum Spanning Tree:")
+
+for u, v, weight in mst:
+    print(f"{u} - {v} : {weight}")
+
+print("Minimum Cost:", cost)
